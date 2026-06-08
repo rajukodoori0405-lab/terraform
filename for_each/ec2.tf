@@ -1,10 +1,13 @@
 resource "aws_instance" "example" {
+
+  #for_each =  var.instances 
+  for_each = var.instances_map
   ami           = "ami-0220d79f3f480ecf5"
-  instance_type = "t3.micro"
+  instance_type = each.value
   vpc_security_group_ids = [aws_security_group.allow_tls.id]
 
   tags = {
-    Name = "terraform-state"
+    Name = each.key
     Project = "roboshop"
   }
 }
